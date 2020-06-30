@@ -11,14 +11,14 @@
 
 # ## _Set up_ da análise
 
-# In[34]:
+# In[3]:
 
 
 import pandas as pd
 import numpy as np
 
 
-# In[35]:
+# In[4]:
 
 
 black_friday = pd.read_csv("black_friday.csv")
@@ -26,31 +26,31 @@ black_friday = pd.read_csv("black_friday.csv")
 
 # ## Inicie sua análise a partir daqui
 
-# In[36]:
+# In[5]:
 
 
 black_friday
 
 
-# In[37]:
+# In[6]:
 
 
 black_friday.head()
 
 
-# In[38]:
+# In[7]:
 
 
 black_friday.shape
 
 
-# In[52]:
+# In[8]:
 
 
 black_friday.info()
 
 
-# In[78]:
+# In[8]:
 
 
 
@@ -60,7 +60,7 @@ black_friday.info()
 # 
 # Quantas observações e quantas colunas há no dataset? Responda no formato de uma tuple `(n_observacoes, n_colunas)`.
 
-# In[39]:
+# In[9]:
 
 
 def q1():
@@ -71,11 +71,15 @@ def q1():
 # 
 # Há quantas mulheres com idade entre 26 e 35 anos no dataset? Responda como um único escalar.
 
-# In[79]:
+# In[10]:
 
 
 def q2():
+    # Melhor solucao
+    # black_friday.query("Gender == 'F' & Age == '26-35'").shape[0]
+
     # Retorne aqui o resultado da questão 2.
+    # Minha solucao
     black_friday_idade_26_35 = black_friday[black_friday['Age']=='26-35']
     black_friday_idade_26_35_F = black_friday_idade_26_35[black_friday_idade_26_35['Gender']=='F']
     return  black_friday_idade_26_35_F.shape[0]
@@ -85,55 +89,89 @@ def q2():
 # 
 # Quantos usuários únicos há no dataset? Responda como um único escalar.
 
-# In[41]:
+# In[11]:
 
 
 def q3():
+    # Melhor solucao
+    # len(black_friday['User_ID'].unique())
+
     # Retorne aqui o resultado da questão 3.
-    pass
+    black_friday_usuarios = black_friday['User_ID'].value_counts()
+    return black_friday_usuarios.shape[0]
+
+q3()
 
 
 # ## Questão 4
 # 
 # Quantos tipos de dados diferentes existem no dataset? Responda como um único escalar.
 
-# In[42]:
+# In[12]:
 
 
 def q4():
     # Retorne aqui o resultado da questão 4.
-    pass
+    # melhor solucao
+    # (len(tipos_de_dados.dtypes.unique()))
+    #####################
+    #Minha solucao
+    array_tipos_dados = []
+    tipos_de_dados = pd.DataFrame(black_friday)
+
+    for i in tipos_de_dados.dtypes.value_counts():
+      array_tipos_dados.append(i)
+
+
+    return len(array_tipos_dados)
+
+q4()
 
 
 # ## Questão 5
 # 
 # Qual porcentagem dos registros possui ao menos um valor null (`None`, `ǸaN` etc)? Responda como um único escalar entre 0 e 1.
 
-# In[43]:
+# In[57]:
 
 
 def q5():
+    # Melhor solucao:
+    # https://github.com/BrunoDorneles/aceleradev-datascience/blob/master/Semana%202/Manipula%C3%A7%C3%A3o%20de%20Dados.ipynb
+    # black_friday.isnull().sum().max() / black_friday.shape[0]
     # Retorne aqui o resultado da questão 5.
-    pass
+    quantidade_total_registro = black_friday.shape[0]
+    quantidade_total_valores_nulos_por_colunas = (black_friday.isnull().sum())
+    quantidade_total_valores_nulos = quantidade_total_valores_nulos_por_colunas.max()
+    return float(quantidade_total_valores_nulos / quantidade_total_registro)
+    #print(x)
+    #print(pd.DataFrame(black_friday.isna().sum() / (black_friday.shape[0])))
+
+q5()
 
 
 # ## Questão 6
 # 
 # Quantos valores null existem na variável (coluna) com o maior número de null? Responda como um único escalar.
 
-# In[44]:
+# In[60]:
 
 
 def q6():
+    # melhor solucao:
+    # black_friday.isna().sum().max()
     # Retorne aqui o resultado da questão 6.
-    pass
+    valores_nulos_df = black_friday.isna().sum()
+    return  int(valores_nulos_df.max())
+
+q6()
 
 
 # ## Questão 7
 # 
 # Qual o valor mais frequente (sem contar nulls) em `Product_Category_3`? Responda como um único escalar.
 
-# In[45]:
+# In[15]:
 
 
 def q7():
@@ -145,7 +183,7 @@ def q7():
 # 
 # Qual a nova média da variável (coluna) `Purchase` após sua normalização? Responda como um único escalar.
 
-# In[46]:
+# In[16]:
 
 
 def q8():
@@ -157,7 +195,7 @@ def q8():
 # 
 # Quantas ocorrências entre -1 e 1 inclusive existem da variáel `Purchase` após sua padronização? Responda como um único escalar.
 
-# In[47]:
+# In[17]:
 
 
 def q9():
@@ -169,7 +207,7 @@ def q9():
 # 
 # Podemos afirmar que se uma observação é null em `Product_Category_2` ela também o é em `Product_Category_3`? Responda com um bool (`True`, `False`).
 
-# In[48]:
+# In[18]:
 
 
 def q10():
